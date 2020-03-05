@@ -8,6 +8,7 @@ RUN dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-re
       curl \
       ffmpeg \
       findutils \
+      nano \
       python \
       which \
     ; \
