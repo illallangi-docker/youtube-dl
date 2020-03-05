@@ -11,14 +11,14 @@ fi
 echo $UMASK "$UMASK_SET"
 $UMASK "$UMASK_SET"
 
-YOUTUBE_DL=$(which youtube-dl)
-if [[ ! -x $YOUTUBE_DL ]]; then
-  echo "youtube-dl binary not found"
+YOUTUBE_ARCHIVE=$(which youtube-archive)
+if [[ ! -x $YOUTUBE_ARCHIVE ]]; then
+  echo "youtube-archive binary not found"
   exit 1
 fi
 
-echo ${*:-${YOUTUBE_DL}}
-exec ${*:-${YOUTUBE_DL}}
+echo ${*:-${YOUTUBE_ARCHIVE}}
+exec ${*:-${YOUTUBE_ARCHIVE}}
 
 #  -i \
 #  --download-archive /config/$(echo ${1} | sha256sum  | awk '{ print $1 }') \
