@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+then
+
+  mkdir -p /data
+  mkdir -p /config
+
+  cat /etc/youtube-archive | xargs -L 1 $0
+  echo ----------------------------------------------------------------------------
+
+else
+
+  YOUTUBE_URL=${1}
+  YOUTUBE_HASH=$(echo ${YOUTUBE_URL} | sha256sum  | awk '{ print $1 }')
+  YOUTUBE_DL=$(which youtube-dl)
+
+  if [[ ! -x $YOUTUBE_DL ]]; then
+    echo "youtube-dl binary not found"
+    exit 1
+  fi
+
+  echo ----------------------------------------------------------------------------
+  echo YOUTUBE_URL=${YOUTUBE_URL}
+  echo YOUTUBE_HASH=${YOUTUBE_HASH}
+  echo YOUTUBE_DL=${YOUTUBE_DL}
+
+  youtube-dl \
+    -i \
+    --download-archive /config/${YOUTUBE_HASH} \
+    ${YOUTUBE_URL} \
+    -f bestvideo+bestaudio \
+    --merge-output-format mkv \
+    --add-metadata \
+    --embed-subs \
+    --write-thumbnail \
+    --all-subs \
+    -o "/data/%(uploader)s/Season 01/%(uploader)s - S01E%(playlist_index)s - %(title)s.%(ext)s"
+
+fi
